@@ -154,25 +154,23 @@ define wordpress::instance::app (
   }
 
   if $wp_proxy_host and !empty($wp_proxy_host) {
-    $exec_environment = [
-      "http_proxy=http://${wp_proxy_host}:${wp_proxy_port}",
-      "https_proxy=http://${wp_proxy_host}:${wp_proxy_port}",
-    ]
+    $proxy_server = "https://${wp_proxy_host}:${wp_proxy_port}"
+    $proxy_type = 'https'
   } else {
-    $exec_environment = []
+    $proxy_server = undef
+    $proxy_type = 'none'
   }
 
   ## Resource defaults
   File {
-    owner  => $wp_owner,
-    group  => $wp_group,
-    mode   => '0644',
+    owner => $wp_owner,
+    group => $wp_group,
+    mode  => '0644',
   }
   Exec {
-    path        => ['/bin','/sbin','/usr/bin','/usr/sbin'],
-    cwd         => $install_dir,
-    environment => $exec_environment,
-    logoutput   => 'on_failure',
+    path      => ['/bin','/sbin','/usr/bin','/usr/sbin'],
+    cwd       => $install_dir,
+    logoutput => 'on_failure',
   }
 
   ## Installation directory
@@ -202,6 +200,8 @@ define wordpress::instance::app (
     extract_path    => $install_dir,
     extract_command => 'tar xzf %s --strip-components=1',
     cleanup         => true,
+    proxy_server    => $proxy_server,
+    proxy_type      => $proxy_type,
     require         => File[$install_dir],
   }
   -> exec { "Change ownership of ${install_dir}":

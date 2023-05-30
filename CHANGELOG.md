@@ -1,3 +1,21 @@
+2023-05-30 Release 2.0.0
+Changed:
+- Depends on the `puppet/archive` module now
+- `wp_proxy_host` and `wp_proxy_port` are for https-only download proxies now
+
+Features:
+- Updated linting/validation with modern tooling
+- Added Apache license file
+- Added parameters:
+  - `wp_config_owner`
+  - `wp_config_group`
+  - `wp_config_mode`
+  - `manage_wp_content`
+  - `wp_content_owner`
+  - `wp_content_group`
+  - `wp_content_recurse`
+  - `wp_site_url`
+
 2014-10-15 Release 1.0.0
 Features
 - Multiple instances ability via wordpress::instance

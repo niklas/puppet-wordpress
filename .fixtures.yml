@@ -1,16 +1,18 @@
 fixtures:
+  repositories:
+    provision: 'https://github.com/puppetlabs/provision.git'
   forge_modules:
     concat:
       repo: "puppetlabs/concat"
-      ref: "5.3.0"
+      ref: "8.0.1"
     mysql:
       repo: "puppetlabs/mysql"
-      ref: "8.1.0"
+      ref: "14.0.0"
     stdlib:
       repo: "puppetlabs/stdlib"
-      ref: "5.2.0"
+      ref: "9.0.0"
     archive:
       repo: "puppet/archive"
-      ref: "0.5.1"
+      ref: "6.1.2"
   symlinks:
     wordpress: "#{source_dir}"

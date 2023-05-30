@@ -1,18 +1,6 @@
-require 'puppet'
-require 'beaker-rspec/spec_helper'
-require 'beaker-rspec/helpers/serverspec'
-require 'beaker/puppet_install_helper'
-require 'beaker/module_install_helper'
+# frozen_string_literal: true
 
-run_puppet_install_helper
-install_module_on(hosts)
-install_module_dependencies_on(hosts)
+require 'puppet_litmus'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
 
-RSpec.configure do |c|
-  # Readable test descriptions
-  c.formatter = :documentation
-
-  c.before :suite do
-    on hosts, puppet('module', 'install', 'puppetlabs/apache')
-  end
-end
+PuppetLitmus.configure!

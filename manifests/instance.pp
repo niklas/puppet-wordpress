@@ -67,6 +67,9 @@
 # [*wp_lang*]
 #   WordPress Localized Language. Default: ''
 #
+# [*wp_config_content*] Specifies the entire content for wp-config.php.
+#   This causes many of the other parameters to be ignored and allows an entirely custom config to be passed.
+#   It is recommended to use wp_additional_config instead of this parameter when possible.
 #
 # [*wp_plugin_dir*]
 #   WordPress Plugin Directory. Full path, no trailing slash. Default: WordPress Default
@@ -90,44 +93,56 @@
 #   Specifies whether to enable the multisite feature. Requires `wp_site_domain` to also be passed. Default: `false`
 #
 # [*wp_site_domain*]
-#   Specifies the `DOMAIN_CURRENT_SITE` value that will be used when configuring multisite. Typically this is the address of the main wordpress instance.  Default: ''
+#   Specifies the `DOMAIN_CURRENT_SITE` value that will be used when configuring multisite.
+#   Typically this is the address of the main wordpress instance.  Default: ''
+#
+# [*wp_debug*]
+#   Specifies the `WP_DEBUG` value that will control debugging. This must be true if you use the next two debug extensions. Default: 'false'
+#
+# [*wp_debug_log*]
+#   Specifies the `WP_DEBUG_LOG` value that extends debugging to cause all errors to also be saved to a debug.log logfile
+#   inside the /wp-content/ directory. Default: 'false'
+#
+# [*wp_debug_display*]
+#   Specifies the `WP_DEBUG_DISPLAY` value that extends debugging to cause debug messages to be shown inline, in HTML pages.
+#   Default: 'false'
 #
 # === Requires
 #
 # === Examples
 #
 define wordpress::instance (
-  $db_name,
-  $db_user,
-  $install_dir          = $title,
-  $install_url          = 'https://wordpress.org',
-  $version              = '4.8.1',
-  $create_db            = true,
-  $create_db_user       = true,
-  $db_host              = 'localhost',
-  $db_password          = 'password',
-  $wp_owner             = 'root',
-  $wp_group             = '0',
-  $wp_config_owner      = undef,
-  $wp_config_group      = undef,
-  $wp_config_mode       = '0644',
-  $manage_wp_content    = false,
-  $wp_content_owner     = undef,
-  $wp_content_group     = undef,
-  $wp_content_recurse   = true,
-  $wp_lang              = '',
-  $wp_config_content    = undef,
-  $wp_plugin_dir        = 'DEFAULT',
-  $wp_additional_config = 'DEFAULT',
-  $wp_table_prefix      = 'wp_',
-  $wp_proxy_host        = '',
-  $wp_proxy_port        = '',
-  $wp_site_url          = undef,
-  $wp_multisite         = false,
-  $wp_site_domain       = '',
-  $wp_debug             = false,
-  $wp_debug_log         = false,
-  $wp_debug_display     = false,
+  String $db_name,
+  String $db_user,
+  Stdlib::Absolutepath $install_dir   = $title,
+  String $install_url                 = 'https://wordpress.org',
+  String $version                     = '4.8.1',
+  Boolean $create_db                  = true,
+  Boolean $create_db_user             = true,
+  String $db_host                     = 'localhost',
+  String $db_password                 = 'password',
+  String $wp_owner                    = 'root',
+  String $wp_group                    = '0',
+  Optional[String] $wp_config_owner   = undef,
+  Optional[String] $wp_config_group   = undef,
+  String $wp_config_mode              = '0644',
+  Boolean $manage_wp_content          = false,
+  Optional[String] $wp_content_owner  = undef,
+  Optional[String] $wp_content_group  = undef,
+  Boolean $wp_content_recurse         = true,
+  String $wp_lang                     = '', # lint:ignore:params_empty_string_assignment
+  Optional[String] $wp_config_content = undef,
+  String $wp_plugin_dir               = 'DEFAULT',
+  String $wp_additional_config        = 'DEFAULT',
+  String $wp_table_prefix             = 'wp_',
+  String $wp_proxy_host               = '', # lint:ignore:params_empty_string_assignment
+  String $wp_proxy_port               = '', # lint:ignore:params_empty_string_assignment
+  Optional[String] $wp_site_url       = undef,
+  Boolean $wp_multisite               = false,
+  String $wp_site_domain              = '', # lint:ignore:params_empty_string_assignment
+  Boolean $wp_debug                   = false,
+  Boolean $wp_debug_log               = false,
+  Boolean $wp_debug_display           = false,
 ) {
   $_wp_config_owner = pick($wp_config_owner, $wp_owner)
   $_wp_config_group = pick($wp_config_group, $wp_group)

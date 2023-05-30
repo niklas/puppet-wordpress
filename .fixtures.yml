@@ -1,7 +1,16 @@
 fixtures:
   forge_modules:
-    concat: "puppetlabs/concat"
-    mysql: "puppetlabs/mysql"
-    stdlib: "puppetlabs/stdlib"
+    concat:
+      repo: "puppetlabs/concat"
+      ref: "5.3.0"
+    mysql:
+      repo: "puppetlabs/mysql"
+      ref: "8.1.0"
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "5.2.0"
+    archive:
+      repo: "puppet/archive"
+      ref: "0.5.1"
   symlinks:
     wordpress: "#{source_dir}"

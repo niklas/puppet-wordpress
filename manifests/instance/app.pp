@@ -191,7 +191,7 @@ define wordpress::instance::app (
     source          => "${install_url}/${install_file_name}",
     filename        => $install_file_name,
     path            => "${install_dir}/${install_file_name}",
-    creates         => "${install_dir}/${install_file_name}",
+    creates         => "${install_dir}/wp-admin/index.php",
     extract         => true,
     extract_path    => $install_dir,
     extract_command => 'tar xzf %s --strip-components=1',
